@@ -1,145 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Health Meal App</title>
-<style>
-  body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; margin:0; padding:0; }
-  .container { max-width: 500px; margin: 50px auto; padding: 30px; background: white; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
-  h2 { text-align:center; margin-bottom:20px; }
-  input, select { width:100%; padding:10px; margin-bottom:15px; border-radius:6px; border:1px solid #ccc; }
-  button { width:100%; padding:12px; background-color:#28a745; border:none; color:white; font-size:16px; border-radius:6px; cursor:pointer; }
-  button:hover { background-color:#218838; }
-  .step { display:none; }
-  .step.active { display:block; }
-  .progress { height:8px; background-color:#eee; border-radius:4px; margin-bottom:20px; }
-  .progress-bar { height:100%; width:0%; background-color:#28a745; border-radius:4px; transition:width 0.3s ease; }
-  #success-screen { display:none; text-align:center; margin-top:50px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Meal App</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      position: relative;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Animated gradient background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(-45deg, #000428, #ffffff, #000428);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      color: black;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #000428; /* Dark blue */
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00123d; /* Slightly lighter blue for hover */
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .progress {
+      height: 8px;
+      background-color: #eee;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #000428;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    #success-screen {
+      display: none;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container" id="form-container">
-  <h2>Health Meal App</h2>
+  <div class="container" id="form-container">
+    <h2>Health Meal App</h2>
 
-  <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
 
-  <!-- Step 1: User Info -->
-  <div class="step active" id="step-1">
-    <input type="text" id="name" placeholder="Full Name" required>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="tel" id="phone" placeholder="Phone Number" required>
-    <button onclick="nextStep()">Next</button>
+    <!-- Step 1 -->
+    <div class="step active" id="step-1">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="tel" id="phone" placeholder="Phone Number" required>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" id="step-2">
+      <select id="goal">
+        <option value="">Select your goal</option>
+        <option value="weight_loss">Lose Weight</option>
+        <option value="muscle_gain">Gain Muscle</option>
+        <option value="health_condition">Manage Health Condition</option>
+      </select>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" id="step-3">
+      <label>How many meals per day?</label>
+      <input type="number" id="meals_per_day" min="1" max="6">
+      <label>Do you prefer spicy food?</label>
+      <select id="spicy">
+        <option value="">Select</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" id="step-4">
+      <select id="diet">
+        <option value="">Select dietary preference</option>
+        <option value="none">None</option>
+        <option value="vegetarian">Vegetarian</option>
+        <option value="vegan">Vegan</option>
+        <option value="gluten_free">Gluten Free</option>
+      </select>
+      <button onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step" id="step-5">
+      <p>Subscribe to our monthly plan for 70,000birr</p>
+      <input type="text" id="referralCode" placeholder="Referral code (optional)">
+      <button onclick="submitOrder()">Submit Order</button>
+
+    <P>please be patient it may take a minute to buffer</P>
+    </div>
   </div>
 
-  <!-- Step 2: Health Goal -->
-  <div class="step" id="step-2">
-    <select id="goal">
-      <option value="">Select your goal</option>
-      <option value="weight_loss">Lose Weight</option>
-      <option value="muscle_gain">Gain Muscle</option>
-      <option value="health_condition">Manage Health Condition</option>
-    </select>
-    <button onclick="nextStep()">Next</button>
+  <div id="success-screen">
+    <h2>CONGRATULATIONS YOU HAVE STARTED YOUR NEW LIFE!</h2>
+    <p>Please make sure to pay the required amount within 24 hours so we may get started.</p>
   </div>
 
-  <!-- Step 3: Short Questionnaire -->
-  <div class="step" id="step-3">
-    <label>How many meals per day?</label>
-    <input type="number" id="meals_per_day" min="1" max="6">
-    <label>Do you prefer spicy food?</label>
-    <select id="spicy">
-      <option value="">Select</option>
-      <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </select>
-    <button onclick="nextStep()">Next</button>
-  </div>
+  <script>
+    let currentStep = 1;
+    const totalSteps = 5;
 
-  <!-- Step 4: Dietary Preference -->
-  <div class="step" id="step-4">
-    <select id="diet">
-      <option value="">Select dietary preference</option>
-      <option value="none">None</option>
-      <option value="vegetarian">Vegetarian</option>
-      <option value="vegan">Vegan</option>
-      <option value="gluten_free">Gluten Free</option>
-    </select>
-    <button onclick="nextStep()">Next</button>
-  </div>
-
-  <!-- Step 5: Referral & Submit -->
-  <div class="step" id="step-5">
-    <p>Subscribe to our monthly plan for 70,000birr</p>
-    <input type="text" id="referralCode" placeholder="Referral code (optional)">
-    <button onclick="submitOrder()">Submit Order</button>
-  </div>
-</div>
-
-<!-- Success screen -->
-<div id="success-screen">
-  <h2>CONGRATULATIONS YOU HAVE STARTED YOUR NEW LIFE!</h2>
-  <p>Please make sure to pay the required amount within 24 hours so we may get started.</p>
-</div>
-
-<script>
-let currentStep = 1;
-const totalSteps = 5;
-
-function updateProgress() {
-  const progress = (currentStep-1)/(totalSteps-1) * 100;
-  document.getElementById('progress-bar').style.width = progress + '%';
-}
-
-function nextStep() {
-  document.getElementById(`step-${currentStep}`).classList.remove('active');
-  currentStep++;
-  if (currentStep <= totalSteps) {
-    document.getElementById(`step-${currentStep}`).classList.add('active');
-    updateProgress();
-  }
-}
-
-async function submitOrder() {
-  // prevent blank page reload
-  event.preventDefault && event.preventDefault();
-
-  const orderData = {
-    user: {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      phone: document.getElementById('phone').value
-    },
-    goal: document.getElementById('goal').value,
-    questions: {
-      meals_per_day: document.getElementById('meals_per_day').value,
-      spicy: document.getElementById('spicy').value,
-      diet: document.getElementById('diet').value
-    },
-    referralCode: document.getElementById('referralCode').value.trim() || null
-  };
-
-  try {
-    const res = await fetch('https://meal-app-backend-1fqb.onrender.com/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-    });
-    const data = await res.json();
-    if (data.success) {
-      // hide form container
-      document.getElementById('form-container').style.display = 'none';
-      // show success screen
-      document.getElementById('success-screen').style.display = 'block';
-    } else {
-      alert('Failed to submit order: ' + data.error);
+    function updateProgress() {
+      const progress = (currentStep - 1) / (totalSteps - 1) * 100;
+      document.getElementById('progress-bar').style.width = progress + '%';
     }
-  } catch(err) {
-    alert('Error submitting order: ' + err.message);
-  }
-}
-</script>
 
+    function nextStep() {
+      document.getElementById(`step-${currentStep}`).classList.remove('active');
+      currentStep++;
+      if (currentStep <= totalSteps) {
+        document.getElementById(`step-${currentStep}`).classList.add('active');
+        updateProgress();
+      }
+    }
+
+    async function submitOrder() {
+      event.preventDefault && event.preventDefault();
+
+      const orderData = {
+        user: {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value
+        },
+        goal: document.getElementById('goal').value,
+        questions: {
+          meals_per_day: document.getElementById('meals_per_day').value,
+          spicy: document.getElementById('spicy').value,
+          diet: document.getElementById('diet').value
+        },
+        referralCode: document.getElementById('referralCode').value.trim() || null
+      };
+
+      try {
+        const res = await fetch('https://meal-app-backend-1fqb.onrender.com/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('form-container').style.display = 'none';
+          document.getElementById('success-screen').style.display = 'block';
+        } else {
+          alert('Failed to submit order: ' + data.error);
+        }
+      } catch (err) {
+        alert('Error submitting order: ' + err.message);
+      }
+    }
+  </script>
 </body>
 </html>
